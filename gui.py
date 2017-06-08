@@ -101,8 +101,9 @@ class ShipSelector:
         self.setup_boats[boat[2]] = True
         self.ship_selection_menu, self.ship_buttons = \
             create_ship_menu(self.figure, 224, "Place your ships", True, True,
-                             not self.setup_boats[boat[2]], not self.setup_boats[boat[2]], not self.setup_boats[boat[2]],
-                             not self.setup_boats[boat[2]], not self.setup_boats[boat[2]])
+                             (not self.setup_boats["carrier"]), (not self.setup_boats["battleship"]),
+                             (not self.setup_boats["cruiser"]),
+                             not self.setup_boats["submarine"], (not self.setup_boats["destroyer"]))
         return points
 
 
@@ -153,7 +154,6 @@ class Interface:
                         print(ship_points)
                         for ship_point in self.player_polygons:
                             if self.player_polygons[ship_point] in ship_points:
-                                print("asdf")
                                 ship_point.set_facecolor("gray")
 
                         self.fig.canvas.draw()
