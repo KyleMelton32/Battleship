@@ -4,6 +4,9 @@ import numpy as np
 
 class GameState(enum.Enum):
     SETUP = "Setup"
+    MIDGAME = "Midgame"
+
+
 
 
 class Battleship:
@@ -11,12 +14,12 @@ class Battleship:
         self.game_state = GameState.SETUP
         self.opponent_ships = []
         self.player_ships = []
+        self.turn = 1
 
-    def fire(self, x, y):
-        """
+    def playeer_fire(self, x, y):
         for ships in ship_list:
                 if (x, y) in ships:
-                    return True"""
+                    return True
         return False
 
     def get_random_tuple(self):
@@ -34,7 +37,8 @@ class Battleship:
 
         return get_random_tuple(-1, 1)
 
-    def out_of_bounds(self, tuplevalue):
+    @staticmethod
+    def point_out_of_bounds(tuplevalue):
         return tuplevalue[0] < 0 or tuplevalue[0] > 9 or tuplevalue[1] < 0 or tuplevalue[1] > 9
 
     def create_ship(self, length):
@@ -62,18 +66,18 @@ class Battleship:
             current_ship.append(tuple(current_field))
         return current_ship
 
-        def get_random_ship_positions(self):
-            global ship_list
-            ship_list = []
-            length = 0
-            for i in range(4, -1, -1):
-                if i == 0:
-                    length = 2
-                else:
-                    length = i
-                current_ship = []
-                while current_ship == []:
-                    current_ship = self.create_ship(length)
+    def get_random_ship_positions(self):
+        global ship_list
+        ship_list = []
+        length = 0
+        for i in range(4, -1, -1):
+            if i == 0:
+                length = 2
+            else:
+                length = i
+            current_ship = []
+            while current_ship == []:
+                current_ship = self.create_ship(length)
 
-                ship_list += [current_ship]
-            return ship_list
+            ship_list += [current_ship]
+        return ship_list
