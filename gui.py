@@ -83,7 +83,8 @@ class ShipSelector:
             create_ship_menu(self.figure, 224, "Place your ships", True, True, True, True, True, True, True)
         self.selected_boat = None
         self.points = []
-        self.setup_boats = {"carrier": False, "battleship": False, "cruiser": False, "submarine": False, "destroyer": False}
+        self.setup_boats = {"carrier": False, "battleship": False, "cruiser": False, "submarine": False,
+                            "destroyer": False}
 
     def select_location(self, x, y):
         boat = self.ship_buttons[self.selected_boat]
@@ -161,8 +162,8 @@ class Interface:
                     if polygon.contains_point((click.x, click.y)):
                         ship_points = self.ship_selector.select_location(self.player_polygons[polygon][0],
                                                                          self.player_polygons[polygon][1])
-                        if ship_points is None: return
-                        print(ship_points)
+                        if ship_points is None:
+                            return
                         for ship_point in self.player_polygons:
                             if self.player_polygons[ship_point] in ship_points:
                                 ship_point.set_facecolor("gray")
@@ -178,6 +179,7 @@ class Interface:
                     polygon.set_facecolor("red")
                 else:
                     polygon.set_facecolor("white")
+                self.opponent_polygons
                 self.fig.canvas.draw()
                 return
 
