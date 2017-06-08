@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import random # REMOVE BEFORE SUBMITTING!!!! (JUST FOR TESTING)
 
 class Battleship:
@@ -10,21 +11,31 @@ class Battleship:
         print("X: " + str(x) + "   Y: " + str(y))
         return random.randrange(0, 2) == 0
 
+
+
+
+
 class Interface:
     def __init__(self, game):
         self.game = game
-        self.fig = plt.figure(figsize=(8, 13))
+        self.fig = plt.figure(figsize=(8, 13), facecolor="#292929")
         self.opponent_board, self.opponent_polygons = self.load_game_board(211, "Opponent's Battlefield")
         self.player_board, self.player_polygons = self.load_game_board(212, "Your Battlefield")
         self.fig.canvas.mpl_connect('button_press_event', self.on_click)
+        red_patch = mpatches.Patch(color='red', label='Hit')
+        white_patch = mpatches.Patch(color='white', label='Miss')
+        gray_patch = mpatches.Patch(color='gray', label="Ship")
+        blue_patch = mpatches.Patch(label="Water")
+        self.fig.legend(handles=[red_patch, white_patch, gray_patch, blue_patch], labels=["Hit", "Miss", "Ship", "Water"])
         plt.show()
 
     def load_game_board(self, position, title):
-        board = self.fig.add_subplot(position, title=title,
+        board = self.fig.add_subplot(position,
                              aspect='equal', frameon=True,
                              xlim=(0, 10),
                              ylim=(0, 10))
-        for axis in (board.xaxis, board.yaxis):
+        board.set_title(title, color="white")
+        for axis in (board.xaxis, board.yaxis):  # Turn off the ticks and labels
             axis.set_major_formatter(plt.NullFormatter())
             axis.set_major_locator(plt.NullLocator())
         polygons = {}
@@ -52,5 +63,12 @@ class Interface:
                 self.fig.canvas.draw()
                 #TODO: SET SHIPS
 
-b = Battleship()
-i = Interface(b)
+
+def main():
+    b = Battleship()
+    i = Interface(b)
+
+
+if __name__ == "__main__":
+    main()
+
