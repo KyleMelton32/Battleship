@@ -17,6 +17,8 @@ def get_random_direction():
     :return: "horizontal" or "vertical"
     """
     # TODO(8): Create the logic for this method based on the docstring above.
+    direction = random.randrange(0, 2)
+    return "horizontal" if direction else "vertical"
 
 
 def point_out_of_bounds(tuplevalue):
@@ -26,6 +28,7 @@ def point_out_of_bounds(tuplevalue):
     :return: 
     """
     # TODO(7): Create the logic for this method based on the docstring above.
+    return tuplevalue[0] < 0 or tuplevalue[0] > 9 or tuplevalue[1] < 0 or tuplevalue[1] > 9
 
 def point_valid(ship_list, tuplevalue):
     """
@@ -33,6 +36,10 @@ def point_valid(ship_list, tuplevalue):
     or partially off the board) :param ship_list: :param tuplevalue: :return: 
     """
     # TODO(6): Create the logic for this method based on the docstring above.
+    for ship in ship_list:
+        if tuplevalue in ship:
+            return False
+    return not point_out_of_bounds(tuplevalue)
 
 
 def create_ship(length, ship_list):
@@ -43,13 +50,31 @@ def create_ship(length, ship_list):
     :param ship_list: :return: 
     """
     # TODO(2): Create the logic for this method based on the docstring above.
+    ship = []
+    while True:
+        direction = get_random_direction()
+        position = get_random_tuple()
+        for i in range(length):
+            coordinate = (position[0] + i, position[1]) if direction == "horizontal" else (position[0], position[1] - i)
+            if not point_valid(ship_list, coordinate):
+                break # Not valid point so must be an invalid starting position
+            ship.append(coordinate)
+        if len(ship) == length:
+            return ship
+        ship.clear()
 
 def get_random_ship_positions():
     """
     This method generates 5 ships and adds each ship to a list. Use the create_ship method. 
     :return: 
     """
-    # TODO(4): Create the logic for this method based on the docstring above
+    # TODO(4): Create the logic for this method based on the docstring above.
+    ship_list = [create_ship(2, ())]
+    ship_list.append(create_ship(3, ship_list))
+    ship_list.append(create_ship(3, ship_list))
+    ship_list.append(create_ship(4, ship_list))
+    ship_list.append(create_ship(5, ship_list))
+    return ship_list
 
 
 class GameState(enum.Enum):
@@ -70,6 +95,11 @@ class Opponent:
         :return: the 2 tuple representing the coordinate fired at
         """
         # TODO(8): Create the logic for this method based on the docstring above.
+        shot = get_random_tuple()
+        if shot in self.shots:
+            shot = self.take_turn()
+        self.shots.append(shot)
+        return shot
 
 
 class Battleship:
@@ -106,3 +136,14 @@ class Battleship:
         :return: a tuple containing 
         """
         #TODO(1): Create the logic for this method based on the docstring above.
+        shot = self.opponent.take_turn()
+        for ship in self.player_ships:
+            if shot in ship:
+                ship.remove((shot[0], shot[1]))
+                if (len(ship) == 0):
+                    self.player_ships.remove(ship)
+                    if (len(self.player_ships_ships) == 0):
+                        print("You lose!")
+                        exit()
+                return "hit", shot[0], shot[1]
+        return "miss", shot[0], shot[1]
