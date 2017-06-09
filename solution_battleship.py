@@ -121,7 +121,7 @@ class Battleship:
                 ship.remove((x, y))
                 if (len(ship) == 0):
                     self.opponent_ships.remove(ship)
-                    if (len(self.opponent_ships) == 0):
+                    if len(self.opponent_ships) == 0:
                         print("You win!")
                         exit()
                 return "hit"
