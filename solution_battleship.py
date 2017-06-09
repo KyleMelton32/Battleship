@@ -138,7 +138,7 @@ class Battleship:
         #TODO(1): Create the logic for this method based on the docstring above.
         shot = self.opponent.take_turn()
         for ship in self.player_ships:
-            if shot in ship:
+            if (shot[0], shot[1]) in ship:
                 ship.remove((shot[0], shot[1]))
                 if (len(ship) == 0):
                     self.player_ships.remove(ship)

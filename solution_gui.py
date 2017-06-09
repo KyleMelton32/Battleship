@@ -118,7 +118,6 @@ class ShipSelector:
             else:
                 location = (x, y - i)
             if not solution_battleship.point_valid(points, location):
-                print("Out of bounds!")
                 return
             points.append(location)
         self.points.append(points)
@@ -196,7 +195,8 @@ class Interface:
                             if self.player_polygons[ship_point] in ship_points:
                                 ship_point.set_facecolor("gray")
                         if self.ship_selector.finished():
-                            solution_battleship.player_ships = self.ship_selector.points
+                            self.game.player_ships = self.ship_selector.points
+
                             self.game.game_state = solution_battleship.GameState.MIDGAME
                         self.fig.canvas.draw()
                         return
